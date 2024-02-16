@@ -8,7 +8,6 @@ public class FortuneTellerViewer
 {
     public static String[] fortunes = new String[12];
     public static int lastFortune, newFortune = 30;
-    public static JTextArea textArea = new JTextArea();
 
     public static void main(String[] args)
     {
@@ -16,42 +15,49 @@ public class FortuneTellerViewer
         JPanel panelNorth = new JPanel();
         JPanel panelCenter = new JPanel();
         JPanel panelSouth = new JPanel();
-        Font title = new Font("Title", Font.BOLD, 28);
-        Font button = new Font("Button", Font.ITALIC, 20);
-        Font fortuneDisplay = new Font("fortuneDisplay", Font.PLAIN, 20);
+        Font titleF = new Font("Serif", Font.BOLD, 30);
+        Font displayF = new Font("Serif", Font.PLAIN, 18);
+        Font buttonF = new Font("Serif", Font.ITALIC, 20);
         new FortuneTellerViewer().SetFortunes();
 
         // TOP PANEL
-        panelNorth.add(new JLabel("Fortune Teller", new ImageIcon("f:/fortuneTellerImage.jpg"), SwingConstants.LEADING));
-        // set title font
+        JLabel z = new JLabel("Fortune Teller", new ImageIcon("/fortuneTellerImage.jpg"), SwingConstants.LEADING);
+        z.setFont(titleF);
+        panelNorth.add(z);
 
         // MIDDLE PART
+        JTextArea textArea = new JTextArea(10, 40);
+        textArea.setFont(displayF);
         panelCenter.add(new JScrollPane(textArea));
-        // set display font
-            // later, fortunes are added here and the user can scroll down to view all of them
 
         // BOTTOM PART
-        // Make sure that you use the Java 8 Lambda Expressions for the actionlistener code for the buttons
-        panelSouth.add(new JButton("Read My Fortune!").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                NewFortune();
+        JButton x = new JButton("Read My Fortune!");
+        x.addActionListener
+        (new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    boolean done = false;
+                    do
+                    {
+                        newFortune = new Random().nextInt(12);
+                        if (newFortune != lastFortune)
+                        {
+                            textArea.append(fortunes[newFortune] + "\n");
+                            lastFortune = newFortune;
+                            done = true;
+                        }
+                    } while(!done);
+                }
             }
-        } ));
-        panelSouth.add(new JButton("Quit").addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Quit();
-            }
-        } ));
+        );
+        x.setFont(buttonF);
+        panelSouth.add(x);
 
-
-        // BORDER LAYOUT NOTES
-        // Use a reasonable visually pleasing arrangement of your components using BorderLayout
-        // Following the example that I have posted in Canvas
-            // Get an instance of the Toolkit
-            // Set your main JFrame to be ¾ of the width of the display
-            // Centered on the screen
-                // The example is in the Canvas Course Documents folder that contains the Java GUI materials
-
+        JButton y = new JButton("Quit");
+        y.addActionListener((ActionEvent ae) -> System.exit(0));
+        y.setFont(buttonF);
+        panelSouth.add(y);
 
         // finally, set JFrame as panel
         inheritFrame.add(panelNorth, BorderLayout.NORTH);
@@ -59,26 +65,6 @@ public class FortuneTellerViewer
         inheritFrame.add(panelSouth, BorderLayout.SOUTH);
 
         inheritFrame.show();
-    }
-
-    public static void NewFortune(ActionEvent e)
-    {
-        boolean done = false;
-        do
-        {
-            newFortune = new Random().nextInt(12);
-            if (newFortune != lastFortune)
-            {
-                // textArea(fortunes[newFortune]);
-                lastFortune = newFortune;
-                done = true;
-            }
-        } while(!done);
-    }
-
-    public static void Quit(ActionEvent e)
-    {
-        JFrame.dispose();
     }
 
     public void SetFortunes()
