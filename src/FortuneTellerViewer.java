@@ -8,6 +8,7 @@ public class FortuneTellerViewer
 {
     public static String[] fortunes = new String[12];
     public static int lastFortune, newFortune = 30;
+    public static JTextArea textArea = new JTextArea();
 
     public static void main(String[] args)
     {
@@ -17,33 +18,40 @@ public class FortuneTellerViewer
         JPanel panelSouth = new JPanel();
         Font title = new Font("Title", Font.BOLD, 28);
         Font button = new Font("Button", Font.ITALIC, 20);
-        Font fortuneDisplay = new Font("fortuneDisplay", Font.PLAIN, 24);
+        Font fortuneDisplay = new Font("fortuneDisplay", Font.PLAIN, 20);
+        new FortuneTellerViewer().SetFortunes();
 
         // TOP PANEL
-        // A JLabel with text “Fortune Teller” (or something similar!) and an ImageIcon
-        // Find an appropriate non-commercial Fortune Teller image for your ImageIcon
-            // The JLabel has a constructor that takes a String and the ImageIcon
-            // Figure out from the Swing API or the content in Canvas how to display the text either above or below the ImageIcon
-        // Select a font face that works with your image and set the size to a larger value (try 36 and 48)
-        // Note that you have to add the image file to your IntelliJ project directory
-
-        // Note: panel.add(object, BorderLayout.NORTH);
-        panelNorth.add(new JLabel("Fortune Teller"));
-        // panelNorth.add(new ImageIcon("f:/fortuneTellerImage.jpg"));
-        // set text above or below image, set font, set image size (suggestion: 36/48)
+        panelNorth.add(new JLabel("Fortune Teller", new ImageIcon("f:/fortuneTellerImage.jpg"), SwingConstants.LEADING));
+        // set title font
 
         // MIDDLE PART
-        // A JTextArea within a JScrollPane where the fortunes will be displayed one per line
-        // Again, set the font values so that it works
-            // Should be smaller than the large text of the Top panel
-
-        panelCenter.add(new JScrollPane(new JTextArea("This is a test")));
-        // set font smaller than top panel
+        panelCenter.add(new JScrollPane(textArea));
+        // set display font
+            // later, fortunes are added here and the user can scroll down to view all of them
 
         // BOTTOM PART
-        // A button with the label “Read My Fortune!”
-        panelSouth.add(new JButton("Read My Fortune!"));
-        panelSouth.add(new JButton("Quit"));
+        // Make sure that you use the Java 8 Lambda Expressions for the actionlistener code for the buttons
+        panelSouth.add(new JButton("Read My Fortune!").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                NewFortune();
+            }
+        } ));
+        panelSouth.add(new JButton("Quit").addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Quit();
+            }
+        } ));
+
+
+        // BORDER LAYOUT NOTES
+        // Use a reasonable visually pleasing arrangement of your components using BorderLayout
+        // Following the example that I have posted in Canvas
+            // Get an instance of the Toolkit
+            // Set your main JFrame to be ¾ of the width of the display
+            // Centered on the screen
+                // The example is in the Canvas Course Documents folder that contains the Java GUI materials
+
 
         // finally, set JFrame as panel
         inheritFrame.add(panelNorth, BorderLayout.NORTH);
@@ -56,32 +64,36 @@ public class FortuneTellerViewer
     public static void NewFortune(ActionEvent e)
     {
         boolean done = false;
-
         do
         {
             newFortune = new Random().nextInt(12);
             if (newFortune != lastFortune)
             {
-                System.out.println(fortunes[newFortune]);
+                // textArea(fortunes[newFortune]);
                 lastFortune = newFortune;
                 done = true;
             }
         } while(!done);
     }
 
+    public static void Quit(ActionEvent e)
+    {
+        JFrame.dispose();
+    }
+
     public void SetFortunes()
     {
-        fortunes[0] = "Test";
-        fortunes[1] = "";
-        fortunes[2] = "";
-        fortunes[3] = "";
-        fortunes[4] = "";
-        fortunes[5] = "";
-        fortunes[6] = "";
-        fortunes[7] = "";
-        fortunes[8] = "";
-        fortunes[9] = "";
-        fortunes[10] = "";
-        fortunes[11] = "";
+        fortunes[0] = "Do not be afraid of competition";
+        fortunes[1] = "An exciting opportunity lies ahead of you";
+        fortunes[2] = "Confidence will lead you on";
+        fortunes[3] = "You will always be surrounded my true friends";
+        fortunes[4] = "You are wise beyond your years";
+        fortunes[5] = "Your ability to juggle many tasks will take you far";
+        fortunes[6] = "A routine task will turn into an enchanting adventure";
+        fortunes[7] = "Be true to your work, your word, and your friend";
+        fortunes[8] = "Goodness is the only investment that never fails";
+        fortunes[9] = "A journey of a thousand miles begins with a single step";
+        fortunes[10] = "Humans cannot be comfortable without their own approval";
+        fortunes[11] = "It is easier to stay out than to get out";
     }
 }
