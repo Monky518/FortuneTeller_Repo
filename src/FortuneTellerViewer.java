@@ -10,6 +10,9 @@ public class FortuneTellerViewer
 
         panel.setLayout(new BorderLayout());
 
+        // change title
+        inheritFrame.setTitle("Fortune Teller");
+
         // TOP PANEL
         // A JLabel with text “Fortune Teller” (or something similar!) and an ImageIcon
         // Find an appropriate non-commercial Fortune Teller image for your ImageIcon
@@ -20,8 +23,7 @@ public class FortuneTellerViewer
 
         // panel.add(object, BorderLayout.NORTH);
 
-        panel.add(new JLabel("Fortune Teller"), BorderLayout.NORTH);
-        panel.add(new JLabel(new ImageIcon("f:/fortuneTellerImage.png", "Fortune teller viewing a glowing orb")), BorderLayout.NORTH);
+        panel.add(new JLabel("Fortune Teller", new ImageIcon("f:/fortuneTellerImage.jpg"), SwingConstants.LEADING));
 
         // finally, set JFrame as panel
         inheritFrame.add(panel);
